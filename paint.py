@@ -7,9 +7,11 @@ cap.set(3,framewidth)
 cap.set(4,frameheight)
 cap.set(10,150)
 
-colors=[[31,86,136,255,255,255],
-        [0,130,233,255,255,255],
-        [29,59,117,255,255,212]]
+with open('values.txt') as f:
+    values = f.read().splitlines()
+values = [int(i) for i in values]
+
+colors=[values]
 co=[[0,255,0],
     [0,255,0],
     [0,255,0]]
@@ -35,7 +37,7 @@ def getC(img):
     for cn in cunt:
         area=cv2.contourArea(cn)
         if area>500:
-            cv2.drawContours(imgResult,cn,-1,(255,0,0),3)
+            cv2.drawContours(imgResult,cn,-1,(255,255,255),3)
             peri=cv2.arcLength(cn,True)
             approx=cv2.approxPolyDP(cn,0.02*peri,True)
             x,y,w,h=cv2.boundingRect(approx)
@@ -43,7 +45,7 @@ def getC(img):
 
 def Draw(pts,cval):
     for pt in pts:
-        cv2.circle(imgResult, (int(pt[0]), int(pt[1])), 10, co[pt[2]], cv2.FILLED)
+        cv2.circle(imgResult, (int(pt[0]), int(pt[1])), 8, [255,0,0], cv2.FILLED)
 
 while True:
 
@@ -60,3 +62,5 @@ while True:
     cv2.imshow("r",imgResult)
     if cv2.waitKey(1) & 0xFF ==ord('s'):
         break
+    elif cv2.waitKey(1) == ord('c'):
+        myPoints = []
