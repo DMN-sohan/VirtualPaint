@@ -1,1 +1,1 @@
-run main.py. all instructions given there.
+run requirements.txt. all instructions given there.
