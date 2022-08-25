@@ -11,6 +11,14 @@ with open('values.txt') as f:
     values = f.read().splitlines()
 values = [int(i) for i in values]
 
+color_array = [[133, 255, 158],
+               [166, 244, 220],
+               [175, 144, 169],
+               [160, 92, 123],
+               [148, 70, 84]]
+
+counter = 0
+
 colors=[values]
 co=[[0,255,0],
     [0,255,0],
@@ -43,9 +51,9 @@ def getC(img):
             x,y,w,h=cv2.boundingRect(approx)
     return x+w/2,y
 
-def Draw(pts,cval):
+def Draw(pts,cval,color):
     for pt in pts:
-        cv2.circle(imgResult, (int(pt[0]), int(pt[1])), 8, [255,0,0], cv2.FILLED)
+        cv2.circle(imgResult, (int(pt[0]), int(pt[1])), 8, color, cv2.FILLED)
 
 while True:
 
@@ -58,9 +66,11 @@ while True:
         for newp in newPt:
             myPoints.append(newp)
     if len(myPoints)!=0:
-        Draw(myPoints,co)
+        Draw(myPoints,co,color_array[ counter % len(color_array) ])
     cv2.imshow("r",imgResult)
-    if cv2.waitKey(1) & 0xFF ==ord('s'):
+    if cv2.waitKey(1) & 0xFF == ord('s') or cv2.waitKey(1) & 0xFF == ord('S'):
         break
-    elif cv2.waitKey(1) == ord('c'):
+    elif cv2.waitKey(1) == ord('c') or cv2.waitKey(1) == ord('C'):
         myPoints = []
+    elif cv2.waitKey(1) == ord('q') or cv2.waitKey(1) == ord('Q'):
+        counter += 1
